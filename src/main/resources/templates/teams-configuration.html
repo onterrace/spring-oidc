@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--
+    For your page to display in Teams, you must include the Microsoft Teams JavaScript client library and include a call to app.initialize() after your page loads.
+    Teams에서 페이지를 표시하려면 Microsoft Teams JavaScript 클라이언트 라이브러리를 포함해야하며 페이지가 로드된 후 app.initialize () 호출을 포함해야합니다.
+    https://learn.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-tab-pages/content-page?tabs=teamsjs-v2
+    -->
+    <script src="https://res.cdn.office.net/teams-js/2.0.0/js/MicrosoftTeams.min.js"
+        integrity="sha384-QtTBFeFlfRDZBfwHJHYQp7MdLJ2C3sfAEB1Qpy+YblvjavBye+q87TELpTnvlXw4" crossorigin="anonymous">
+        </script>
+</head>
+
+<body>
+
+    <h1>Configuration Page</h1>
+    <button id="btnGray">Select Gray</button>
+    <button id="btnRed">Select Red</button>
+
+    <script>
+        // flow 
+        // 사용자 탭추가 -> 구성 URL 호출 -> popup 호출 -> notifySuccess() 호출 -> contentUrl 호출(redirect)
+        window.addEventListener("load", function () {
+
+            // 초기화 
+            microsoftTeams.initialize();
+
+            
+
+
+            let saveGray = () => {
+                microsoftTeams.pages.config.registerOnSaveHandler((saveEvent) => {
+                    // contentUrl에 gray를 붙인다. 
+                    const configPromise = microsoftTeams.pages.config.setConfig({
+                        websiteUrl: "https://00d5-1-214-255-114.jp.ngrok.io",
+                        contentUrl: "https://00d5-1-214-255-114.jp.ngrok.io/teams/teams-content/gray",
+                        entityId: "grayIconTab",
+                        suggestedDisplayName: "MyNewTab"
+                    });
+                    configPromise.
+                        then((result) => { saveEvent.notifySuccess() }).
+                        catch((error) => { saveEvent.notifyFailure("failure message") });
+                });
+            }
+
+            let saveRed = () => {
+                microsoftTeams.pages.config.registerOnSaveHandler((saveEvent) => {
+                    alert("saveRed");
+                    // contentUrl에 red를 붙인다. 
+                    const configPromise = microsoftTeams.pages.config.setConfig({
+                        websiteUrl: "https://00d5-1-214-255-114.jp.ngrok.io",
+                        contentUrl: "https://00d5-1-214-255-114.jp.ngrok.io/teams/teams-content/red",
+                        entityId: "redIconTab",
+                        suggestedDisplayName: "MyNewTab"
+                    });
+                    configPromise.
+                        then((result) => { saveEvent.notifySuccess(); }).
+                        catch((error) => { saveEvent.notifyFailure("failure message") });
+                });
+            }
+
+            window.document.querySelector("#btnGray").addEventListener("click", function () {
+                // 사용자가 무엇인가를 선택하고 구성을 완료했다고 가정하고 다음을 호출 
+                microsoftTeams.pages.config.setValidityState(true);
+                saveGray();
+                // microsoftTeams.authentication.authenticate(popUpParameters);
+            });
+            window.document.querySelector("#btnRed").addEventListener("click", function () {
+                // 사용자가 무엇인가를 선택하고 구성을 완료했다고 가정하고 다음을 호출 
+                microsoftTeams.pages.config.setValidityState(true);
+                saveRed();
+            });
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://res.cdn.office.net/teams-js/2.0.0/js/MicrosoftTeams.min.js"
+        integrity="sha384-QtTBFeFlfRDZBfwHJHYQp7MdLJ2C3sfAEB1Qpy+YblvjavBye+q87TELpTnvlXw4" crossorigin="anonymous">
+        </script>
+</head>
+
+<body>
+    <h1>Teams Content HTML</h1>
+    <h2>Color: {{color}} </h2>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            microsoftTeams.initialize();
+            var authTokenRequest = {
+                successCallback: function (result) { 
+                    console.log("Success: " + result); 
+                    // authToken을 전달
+                    
+                    window.location.href = "https://00d5-1-214-255-114.jp.ngrok.io/graph/teams-auth-token?token=" + result;
+                    // fetch 함수 사용 시에는 Auth Token을 파라미터로 전달하여 Graph API를 사용 
+                    // let url = "https://e973-1-214-255-114.jp.ngrok.io/graph/teams-auth-token?token=" + result;
+                    // fetch(url, {
+                    //     method: 'GET',
+                    //     headers: {
+                    //         'Content-Type': 'application/json'
+                    //     }
+                    // })
+                    // .then( response => response.json())
+                    // .then(response => {
+                    //     console.log(response);
+                    // }).catch(error => {
+                    //     console.log(error);
+                    // });
+
+            },
+                failureCallback: function (error) { console.log("Error getting token: " + error); }
+            };
+            microsoftTeams.authentication.getAuthToken(authTokenRequest);
+        });
+
+    </script>
+</body>
+
+</html>

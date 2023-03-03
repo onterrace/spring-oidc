@@ -1,0 +1,46 @@
+spring:
+  security:
+    oauth2:
+      client:
+        # OAuth 클라이언트 등록 정보
+        # Spring Security OAuth2 Client의 기본 Provider(google, facebook, github, okta)은 authorization-grant-type,  redirect-uri,client-name 등을 지정하지 않아도 된다.
+        registration:
+          google:
+            client-id: ''
+            client-secret: ''
+            scope: 
+              - openid
+              - email
+              - profile
+              # Google Calendar, Drive, Google Doc 등의 API를 사용하려면 아래 scope를 추가한다.
+              # 권한에 대해서는 https://developers.google.com/drive/api/guides/api-specific-auth 을 참고한다.
+              - https://www.googleapis.com/auth/drive    
+          azure:
+            # OAuth2 인증 grant type 을 설정
+            authorization-grant-type: authorization_code
+            # OAuth2 client-id
+            client-id: ''
+            # OAuth2 client-secret
+            client-secret: ''
+            # OAuth2 client name  
+            client-name: ''
+            # OAuth2 redirect-uri
+            redirect-uri: 'https://387c-1-214-255-114.jp.ngrok.io/login/oauth2/code/azure'
+            # OAuth2 scope
+            scope: 
+              - openid
+              - email
+              - https://graph.microsoft.com/Mail.Read
+            # Directory Id(tenant) ID 
+            tenant-id: ''
+        # OAuth2 Provider 등록 정보
+          # Spring Security OAuth2 Client의 기본 Provider(google, facebook, github, okta)은 설정되어 있어 추가하지 않아도 된다.
+        provider:
+          azure:
+            # ODIC Provider의 /.well-known/openid-configuration endpoint
+            issuer-uri: 'https://login.microsoftonline.com/0f298de5-864d-4f37-9497-77ace3386e9e/v2.0'
+            #  ODIC를 지원하지 않는 Provider는 아래설정을  추가해야 한다.
+#            authorization-uri: 'https://login.microsoftonline.com/0f298de5-864d-4f37-9497-77ace3386e9e/oauth2/v2.0/authorize'
+#            token-uri: 'https://login.microsoftonline.com/0f298de5-864d-4f37-9497-77ace3386e9e/oauth2/v2.0/token'
+#            user-info-uri: 'https://graph.microsoft.com/oidc/userinfo'
+#            user-name-attribute: 'sub'            
